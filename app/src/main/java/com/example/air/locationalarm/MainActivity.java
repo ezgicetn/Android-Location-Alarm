@@ -8,14 +8,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        listView = (ListView)findViewById(R.id.listView);
+
+
+        ArrayList <Reminder> reminderArrayList = new ArrayList<>();
+        reminderArrayList.add(new Reminder("başlık", "detaaaay"));
+        reminderArrayList.add(new Reminder("ben bi başlığııım", "detaaaaycııı"));
+
+        ReminderListAdapter listAdapter = new ReminderListAdapter(reminderArrayList, this);
+        listView.setAdapter(listAdapter);
+
+
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
