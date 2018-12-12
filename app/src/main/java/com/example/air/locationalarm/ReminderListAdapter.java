@@ -8,13 +8,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReminderListAdapter extends BaseAdapter {
-    ArrayList <Reminder> reminderArrayList;
+    List<Reminder> reminderArrayList;
     public Activity context;
 
 
-    ReminderListAdapter (ArrayList<Reminder> arrayList, Activity context){
+    ReminderListAdapter (List<Reminder> arrayList, Activity context){
         reminderArrayList = arrayList;
         this.context = context;
     }

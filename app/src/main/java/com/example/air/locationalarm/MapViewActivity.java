@@ -1,6 +1,10 @@
 package com.example.air.locationalarm;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -8,17 +12,34 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 public class MapViewActivity extends AppCompatActivity implements OnMapReadyCallback{
     private MapView mapView;
     private GoogleMap gmap;
-
+    DatabaseHelper databaseHelper = new DatabaseHelper(this);
+    EditText titleEdt, detail;
+    Button saveBtn;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view_);
-
+        titleEdt = findViewById(R.id.titleEditText);
+        detail = findViewById(R.id.detailEditText);
+        saveBtn = findViewById(R.id.saveBtn);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = titleEdt.getText().toString();
+                String det = detail.getText().toString();
+                Reminder reminder = new Reminder(title,det);
+                databaseHelper.addReminder(reminder);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
