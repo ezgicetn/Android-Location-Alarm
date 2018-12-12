@@ -12,20 +12,20 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/titleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="Title"
+            android:inputType="text|textPersonName" />
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/detailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint="detail"
+            android:inputType="text|textPersonName" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,11 +39,11 @@
             </SearchView>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/saveBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Button" />
+                android:text="Save" />
         </LinearLayout>
 
         <LinearLayout
