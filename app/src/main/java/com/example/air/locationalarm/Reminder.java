@@ -15,6 +15,11 @@ public class Reminder {
         this.title = title;
         this.detail = detail;
     }
+    Reminder(int id, String title, String detail){
+        this.ID = id;
+        this.title = title;
+        this.detail = detail;
+    }
     public int getID(){
         return ID;
     }

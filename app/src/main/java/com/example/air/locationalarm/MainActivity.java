@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -24,13 +25,19 @@ public class MainActivity extends AppCompatActivity {
         listView = findViewById(R.id.listView);
         databaseHelper = new DatabaseHelper(this);
         reminderList = databaseHelper.getReminders();
-        /*
-        ArrayList <Reminder> reminderArrayList = new ArrayList<>();
-        reminderArrayList.add(new Reminder("başlık", "detaaaay"));
-        reminderArrayList.add(new Reminder("ben bi başlığııım", "detaaaaycııı"));*/
 
         ReminderListAdapter listAdapter = new ReminderListAdapter(reminderList, this);
         listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(MainActivity.this,MapViewActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putInt("ID", position+1);
+                i.putExtras(bundle);
+                startActivity(i);
+            }
+        });
 
 
         FloatingActionButton fab = findViewById(R.id.floatingActionButton);

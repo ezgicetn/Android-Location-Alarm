@@ -52,6 +52,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // return quest list
         return reminderList;
     }
+    public Reminder getSaved(int id){
+        SQLiteDatabase dbase = this.getReadableDatabase();
+        Reminder reminder = null;
+        String SQL = "Select * From " +TableName+ " Where " +ID+ " = " +id+ ";";
+        Cursor cursor = dbase.rawQuery(SQL,null);
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+        if(cursor != null && cursor.getCount()>0){
+            reminder = new Reminder(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+        }
+        return reminder;
+    }
+    public void editReminder(Reminder r){
+        SQLiteDatabase dbase = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        String where = ID+ "=?";
+        String [] whereArgs = new String[] {String.valueOf(r.getID())};
+        cv.put(Col_Title, r.getTitle());
+        cv.put(Col_Detail,r.getDetail());
+        dbase.update(TableName, cv, where, whereArgs);
+    }
 
 
     @Override

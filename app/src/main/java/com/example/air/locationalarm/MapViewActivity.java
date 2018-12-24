@@ -20,6 +20,8 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     DatabaseHelper databaseHelper = new DatabaseHelper(this);
     EditText titleEdt, detail;
     Button saveBtn;
+    Boolean existing = false;
+    Reminder r;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
@@ -29,15 +31,35 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         titleEdt = findViewById(R.id.titleEditText);
         detail = findViewById(R.id.detailEditText);
         saveBtn = findViewById(R.id.saveBtn);
+        Bundle bundle = getIntent().getExtras();
+            int ID = 0;
+            if(bundle != null){
+                ID = bundle.getInt("ID");
+                r = databaseHelper.getSaved(ID);
+                titleEdt.setText(r.getTitle());
+                detail.setText(r.getDetail());
+                existing = true;
+            }
+
+
+
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = titleEdt.getText().toString();
-                String det = detail.getText().toString();
-                Reminder reminder = new Reminder(title,det);
-                databaseHelper.addReminder(reminder);
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
+                if(existing){
+                    r.setTitle(titleEdt.getText().toString());
+                    r.setDetail(detail.getText().toString());
+                    databaseHelper.editReminder(r);
+                }
+                else {
+                    String title = titleEdt.getText().toString();
+                    String det = detail.getText().toString();
+                    Reminder reminder = new Reminder(title, det);
+                    databaseHelper.addReminder(reminder);
+                    }
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+
             }
         });
 
