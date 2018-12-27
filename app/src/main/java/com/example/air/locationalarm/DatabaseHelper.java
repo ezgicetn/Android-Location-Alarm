@@ -12,9 +12,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TableName = "Reminder";
     private static final String ID = "id";
     private static final String Col_Title = "Title";
-    private static final String Col_Detail= "Detail"; //correct option
-    //private static final String Long = "opta"; //option a
-    //private static final String Lat = "optb"; //option b
+    private static final String Col_Detail= "Detail";
+    private static final String Col_Lng = "Longtitude";
+    private static final String Col_Lat = "Latitude";
+
     public DatabaseHelper(Context context) {
         super(context, DBName, null, DBVersion);
     }
@@ -22,7 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String SQL = "CREATE TABLE IF NOT EXISTS " +TableName+ " ( "
                 +ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +Col_Title+
-                " TEXT, " + Col_Detail + " TEXT);";
+                " TEXT, " + Col_Detail + " TEXT, " +Col_Lat+ " REAL, " +Col_Lng+ " REAL);";
         db.execSQL(SQL);
     }
     public void addReminder(Reminder reminder){
@@ -30,6 +31,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(Col_Title, reminder.getTitle());
         contentValues.put(Col_Detail, reminder.getDetail());
+        contentValues.put(Col_Lat, reminder.getLat());
+        contentValues.put(Col_Lng, reminder.getLng());
         dbase.insert(TableName, null,contentValues);
         dbase.close();
     }
@@ -46,6 +49,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 reminder.setID(cursor.getInt(0));
                 reminder.setTitle(cursor.getString(1));
                 reminder.setDetail(cursor.getString(2));
+                reminder.setLat(cursor.getDouble(3));
+                reminder.setLng(cursor.getDouble(4));
                 reminderList.add(reminder);
             } while (cursor.moveToNext());
         }
@@ -61,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.moveToFirst();
         }
         if(cursor != null && cursor.getCount()>0){
-            reminder = new Reminder(cursor.getInt(0), cursor.getString(1), cursor.getString(2));
+            reminder = new Reminder(cursor.getInt(0), cursor.getString(1), cursor.getString(2), cursor.getDouble(3), cursor.getDouble(4));
         }
         return reminder;
     }
@@ -72,6 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String [] whereArgs = new String[] {String.valueOf(r.getID())};
         cv.put(Col_Title, r.getTitle());
         cv.put(Col_Detail,r.getDetail());
+        cv.put(Col_Lat, r.getLat());
+        cv.put(Col_Lng, r.getLng());
         dbase.update(TableName, cv, where, whereArgs);
     }
 
